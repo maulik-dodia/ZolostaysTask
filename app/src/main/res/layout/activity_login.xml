@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
+    tools:context="com.zolostaystask.login.LoginActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.35"
+        android:src="@drawable/zolo_logo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.65"
+        android:background="@color/color_blue"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_15sdp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/imgPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_15sdp"
+                app:srcCompat="@drawable/ic_call" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutPhoneNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imgPhone"
+                android:textColorHint="@color/color_yellow_blackish"
+                app:hintTextAppearance="@style/TextInputLayoutTheme">
+
+                <com.zolostaystask.customWidgets.CustomEditText
+                    android:id="@+id/editTextPhoneNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/str_phone_num"
+                    android:inputType="phone|number"
+                    android:maxLength="10"
+                    app:font="Roboto-Regular.ttf" />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginRight="@dimen/_30sdp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/imgKey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_15sdp"
+                app:srcCompat="@drawable/ic_key" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutPwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imgKey"
+                android:textColorHint="@color/color_yellow_blackish"
+                app:hintTextAppearance="@style/TextInputLayoutTheme">
+
+                <com.zolostaystask.customWidgets.CustomEditText
+                    android:id="@+id/editTextPwd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/ic_pwd"
+                    android:hint="@string/str_pwd"
+                    android:inputType="textPassword"
+                    android:maxLength="10"
+                    app:font="Roboto-Regular.ttf" />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:background="@color/color_yellow"
+            android:enabled="false"
+            android:text="@string/str_login" />
+
+        <TextView
+            android:id="@+id/tvForgotPwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:gravity="center_horizontal"
+            android:text="@string/str_forgot_pwd"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/btnCreateAcc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:background="@drawable/btn_holo_bg"
+            android:text="@string/str_create_acc"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+</LinearLayout>

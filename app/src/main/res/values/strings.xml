@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">ZolostaysTask</string>
+    <string name="str_phone_num">PHONE NUMBER</string>
+    <string name="str_phone_num_regi">YOUR PHONE NUMBER</string>
+    <string name="str_email">YOUR EMAIL ID</string>
+    <string name="str_name">YOUR NAME</string>
+    <string name="str_pwd">PASSWORD</string>
+    <string name="str_login">LOG IN</string>
+    <string name="str_register">REGISTER</string>
+    <string name="str_reset_pwd">RESET PASSWORD</string>
+    <string name="str_register_text">Please register with Zolo to continue</string>
+    <string name="str_forgot_pwd_text">Please enter your registered email</string>
+    <string name="str_forgot_pwd">Forgot password?</string>
+    <string name="str_forgot_pwd_with_slash">Forgot \npassword?</string>
+    <string name="str_create_acc">Create Account</string>
+</resources>
