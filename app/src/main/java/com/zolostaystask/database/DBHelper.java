@@ -79,7 +79,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public boolean loginUser(String phone, String pwd) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query(TABLE_USER, new String[]{KEY_USER_PHONE}, KEY_USER_PASSWORD + "=?",
+        Cursor cursor = db.query(TABLE_USER,
+                new String[]{KEY_USER_PHONE, KEY_USER_PASSWORD}, KEY_USER_PHONE + "=? AND "+ KEY_USER_PASSWORD + "=?",
                 new String[]{phone, pwd}, null, null, null, null);
         if (cursor != null && cursor.getCount() > 0) {
             return true;

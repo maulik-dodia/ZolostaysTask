@@ -10,13 +10,14 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zolostaystask.R;
 import com.zolostaystask.customWidgets.CustomEditText;
 import com.zolostaystask.forgotPwd.ForgotPwdActivity;
 import com.zolostaystask.models.User;
+import com.zolostaystask.profile.ProfileActivity;
 import com.zolostaystask.register.RegisterActivity;
 import com.zolostaystask.utils.FontUtils;
 import com.zolostaystask.utils.PrefUtils;
@@ -28,8 +29,8 @@ import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
-    @BindView(R.id.rlRootLayout)
-    RelativeLayout rlRootLayout;
+    @BindView(R.id.llRootLayout)
+    LinearLayout llRootLayout;
 
     @BindView(R.id.inputLayoutPhoneNum)
     TextInputLayout inputLayoutPhoneNum;
@@ -64,6 +65,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     private void init() {
+        //Checking User Already Login or Not
+        if (PrefUtils.getUserPhone(this) != null) {
+            startActivity(new Intent(this, ProfileActivity.class));
+            finish();
+        }
+
         //Initializing Presenter
         loginPresenter = new LoginPresenterImpl(this);
 
@@ -79,17 +86,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void gotLoginStatus(boolean b) {
-        //Toast.makeText(this, "Login Status-->" + b, Toast.LENGTH_SHORT).show();
-        Snackbar snackbar;
         if (b) {
-            snackbar = Snackbar.make(rlRootLayout, R.string.str_login_success, Snackbar.LENGTH_LONG);
-            PrefUtils.setUserData(LoginActivity.this,
-                    editTextPhoneNum.getText().toString(),
-                    editTextPwd.getText().toString());
+            PrefUtils.setUserPhone(LoginActivity.this, editTextPhoneNum.getText().toString());
+            startActivity(new Intent(this, ProfileActivity.class));
+            finish();
         } else {
-            snackbar = Snackbar.make(rlRootLayout, R.string.str_failure, Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(llRootLayout, R.string.str_login_failure, Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
-        snackbar.show();
     }
 
     @OnClick(R.id.btnLogin)

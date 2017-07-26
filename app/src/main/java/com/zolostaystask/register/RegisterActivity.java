@@ -85,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView 
             if (l != -1) {
                 snackbar = Snackbar.make(rlRootLayout, R.string.str_register_success, Snackbar.LENGTH_LONG);
             } else {
-                snackbar = Snackbar.make(rlRootLayout, R.string.str_failure, Snackbar.LENGTH_LONG);
+                snackbar = Snackbar.make(rlRootLayout, R.string.str_register_failure, Snackbar.LENGTH_LONG);
             }
         } else {
             snackbar = Snackbar.make(rlRootLayout, R.string.str_register_exists, Snackbar.LENGTH_LONG);

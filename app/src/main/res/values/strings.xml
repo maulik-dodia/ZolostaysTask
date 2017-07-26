@@ -15,6 +15,6 @@
     <string name="str_create_acc">Create Account</string>
     <string name="str_register_exists">User with this email already exists!</string>
     <string name="str_register_success">Registration successful. Please login!</string>
-    <string name="str_login_success">Login successful.</string>
-    <string name="str_failure">Something went wrong. Please try after sometime!</string>
+    <string name="str_register_failure">Something went wrong. Please try after sometime!</string>
+    <string name="str_login_failure">Credentials are incorrect!</string>
 </resources>
