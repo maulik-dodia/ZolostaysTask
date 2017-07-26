@@ -13,7 +13,6 @@ public class RegisterModelImpl implements RegisterModel {
 
     @Override
     public void doRegister(Context mContext, User user, OnRegisterCompleteListener listener) {
-
         DBHelper dbHelper = new DBHelper(mContext);
         long registerResult = dbHelper.registerUser(user);
 

@@ -47,7 +47,6 @@ public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdVie
         setContentView(R.layout.activity_forgot_pwd);
 
         ButterKnife.bind(this);
-
         init();
     }
 
@@ -66,6 +65,11 @@ public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdVie
     @OnClick(R.id.btnResetPwd)
     public void sendEmailToResetPwd() {
         forgotPwdPresenter.sendEmail(ForgotPwdActivity.this, editTextEmail.getText().toString());
+    }
+
+    @OnClick(R.id.tvToolbarText)
+    public void navifateToLogin(){
+        onBackPressed();
     }
 
     @Override

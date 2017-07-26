@@ -2,6 +2,7 @@ package com.zolostaystask.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -9,8 +10,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.zolostaystask.R;
 import com.zolostaystask.customWidgets.CustomEditText;
@@ -18,6 +19,7 @@ import com.zolostaystask.forgotPwd.ForgotPwdActivity;
 import com.zolostaystask.models.User;
 import com.zolostaystask.register.RegisterActivity;
 import com.zolostaystask.utils.FontUtils;
+import com.zolostaystask.utils.PrefUtils;
 import com.zolostaystask.utils.ValidationUtils;
 
 import butterknife.BindView;
@@ -25,6 +27,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
+
+    @BindView(R.id.rlRootLayout)
+    RelativeLayout rlRootLayout;
 
     @BindView(R.id.inputLayoutPhoneNum)
     TextInputLayout inputLayoutPhoneNum;
@@ -55,12 +60,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         setContentView(R.layout.activity_login);
 
         ButterKnife.bind(this);
-
         init();
     }
 
     private void init() {
-
         //Initializing Presenter
         loginPresenter = new LoginPresenterImpl(this);
 
@@ -70,20 +73,28 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         btnCreateAcc.setTypeface(FontUtils.getInstance(LoginActivity.this).getRobotoRegularTypeFace());
 
         //Setting TextWatcher
-        editTextPhoneNum.addTextChangedListener(new MyTextWatcher(editTextPhoneNum));
-        editTextPwd.addTextChangedListener(new MyTextWatcher(editTextPwd));
+        //editTextPhoneNum.addTextChangedListener(new MyTextWatcher(editTextPhoneNum));
+        //editTextPwd.addTextChangedListener(new MyTextWatcher(editTextPwd));
     }
 
     @Override
     public void gotLoginStatus(boolean b) {
-        Toast.makeText(this, "Login Status-->" + b, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Login Status-->" + b, Toast.LENGTH_SHORT).show();
+        Snackbar snackbar;
+        if (b) {
+            snackbar = Snackbar.make(rlRootLayout, R.string.str_login_success, Snackbar.LENGTH_LONG);
+            PrefUtils.setUserData(LoginActivity.this,
+                    editTextPhoneNum.getText().toString(),
+                    editTextPwd.getText().toString());
+        } else {
+            snackbar = Snackbar.make(rlRootLayout, R.string.str_failure, Snackbar.LENGTH_LONG);
+        }
+        snackbar.show();
     }
 
     @OnClick(R.id.btnLogin)
     public void loginUser() {
-
         User user = new User(editTextPhoneNum.getText().toString(), editTextPwd.getText().toString());
-
         loginPresenter.login(LoginActivity.this, user);
     }
 
@@ -117,9 +128,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         }
 
         public void afterTextChanged(Editable editable) {
-
             switch (view.getId()) {
-
                 case R.id.editTextPhoneNum:
                     String validationPhoneResult = ValidationUtils.validatePhone(editTextPhoneNum.getText().toString());
                     if (!TextUtils.isEmpty(validationPhoneResult) && validationPhoneResult != null) {

@@ -13,7 +13,6 @@ public class LoginModelImpl implements LoginModel {
 
     @Override
     public void doLogin(Context mContext, User user, OnLoginCompleteListener listener) {
-
         DBHelper dbHelper = new DBHelper(mContext);
         boolean loginResult = dbHelper.loginUser(user.getPhone(), user.getPwd());
 

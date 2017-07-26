@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_blue"
-    android:orientation="vertical"
+    android:id="@+id/rlRootLayout"
     tools:context="com.zolostaystask.register.RegisterActivity">
 
     <android.support.v7.widget.Toolbar
@@ -100,6 +100,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/str_phone_num_regi"
                         android:inputType="phone"
+                        android:maxLength="10"
                         app:font="Roboto-Regular.ttf" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>

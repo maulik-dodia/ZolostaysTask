@@ -67,32 +67,24 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkForExistingUser(String email) {
-
         SQLiteDatabase db = this.getReadableDatabase();
-
         Cursor cursor = db.query(TABLE_USER, new String[]{KEY_USER_EMAIL}, KEY_USER_EMAIL + "=?",
                 new String[]{String.valueOf(email)}, null, null, null, null);
-
         if (cursor != null && cursor.getCount() > 0) {
             return true;
         }
         db.close();
-
         return false;
     }
 
     public boolean loginUser(String phone, String pwd) {
-
         SQLiteDatabase db = this.getWritableDatabase();
-
         Cursor cursor = db.query(TABLE_USER, new String[]{KEY_USER_PHONE}, KEY_USER_PASSWORD + "=?",
                 new String[]{phone, pwd}, null, null, null, null);
-
         if (cursor != null && cursor.getCount() > 0) {
             return true;
         }
         db.close();
-
         return false;
     }
 }
