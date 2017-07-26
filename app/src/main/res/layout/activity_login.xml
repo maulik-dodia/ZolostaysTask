@@ -86,7 +86,7 @@
                     android:id="@+id/editTextPwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/ic_pwd"
+                    android:drawableRight="@drawable/ic_hide_pwd"
                     android:hint="@string/str_pwd"
                     android:inputType="textPassword"
                     android:maxLength="10"

@@ -40,4 +40,9 @@ public class ForgotPwdPresenterImpl implements ForgotPwdPresenter, ForgotPwdMode
             }
         }
     }
+
+    @Override
+    public void onInternetNoAvailable() {
+        forgotPwdView.showMessage("Check your internet connection!");
+    }
 }

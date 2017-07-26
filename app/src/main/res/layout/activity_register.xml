@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_blue"
-    android:id="@+id/rlRootLayout"
     tools:context="com.zolostaystask.register.RegisterActivity">
 
     <android.support.v7.widget.Toolbar
@@ -200,9 +200,10 @@
                         android:id="@+id/editTextPwd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableRight="@drawable/ic_pwd"
+                        android:drawableRight="@drawable/ic_hide_pwd"
                         android:hint="@string/str_pwd"
                         android:inputType="textPassword"
+                        android:maxLength="10"
                         app:font="Roboto-Regular.ttf" />
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
