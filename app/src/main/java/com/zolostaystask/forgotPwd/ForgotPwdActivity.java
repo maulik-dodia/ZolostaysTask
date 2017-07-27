@@ -48,9 +48,6 @@ public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdVie
     @BindView(R.id.btnResetPwd)
     Button btnResetPwd;
 
-    @BindView(R.id.tvNewPwd)
-    TextView tvNewPwd;
-
     private boolean validEmail;
     private ForgotPwdPresenter forgotPwdPresenter;
 
@@ -89,8 +86,6 @@ public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdVie
 
     @Override
     public void showMessage(String msg) {
-        tvNewPwd.setText(msg);
-        tvNewPwd.setVisibility(View.VISIBLE);
         Snackbar snackbar = Snackbar.make(rlRootLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
     }

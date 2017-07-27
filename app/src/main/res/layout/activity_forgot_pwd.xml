@@ -117,16 +117,6 @@
                 android:background="@color/color_yellow"
                 android:enabled="false"
                 android:text="@string/str_reset_pwd" />
-
-            <TextView
-                android:id="@+id/tvNewPwd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="maulik"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/_18ssp"
-                android:visibility="invisible" />
         </LinearLayout>
     </LinearLayout>
 

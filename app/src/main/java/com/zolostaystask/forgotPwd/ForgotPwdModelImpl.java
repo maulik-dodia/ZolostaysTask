@@ -3,10 +3,11 @@ package com.zolostaystask.forgotPwd;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.zolostaystask.database.DBHelper;
-import com.zolostaystask.utils.GMailSender;
+import com.zolostaystask.utils.MailUtils;
 
 import java.security.SecureRandom;
 import java.util.Random;
@@ -17,38 +18,25 @@ import java.util.Random;
 
 public class ForgotPwdModelImpl implements ForgotPwdModel {
 
-    private Context mContext;
+    //private Context mContext;
 
     @Override
-    public void doSendEmail(Context context, final String email, final OnSendingEmailCompleteListener listener) {
+    public void doSendEmail(Context mContext, final String email, final OnSendingEmailCompleteListener listener) {
 
-        this.mContext = context;
+        //this.mContext = context;
 
-        if (isConnectedToInternet(context)) {
-            final DBHelper dbHelper = new DBHelper(context);
+        if (isConnectedToInternet(mContext)) {
+            final DBHelper dbHelper = new DBHelper(mContext);
             if (dbHelper.checkForExistingUser(email)) {
-
+                String username = dbHelper.getUsername(email);
                 String newPwd = newPWDString();
-                if (sendEmail(email)) {
+                if (sendEmail(username, email, newPwd) == 1) {
                     if (dbHelper.updateUserPwd(email, newPwd) > 0) {
-                        listener.onNewPwdGenerated(newPwd);
+                        listener.onEmailSent(true);
                     }
                 } else {
                     listener.onEmailSent(false);
                 }
-
-                /*Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                thread.start();*/
-
             } else {
                 listener.onUserNotFound();
             }
@@ -72,16 +60,48 @@ public class ForgotPwdModelImpl implements ForgotPwdModel {
         return true;
     }
 
-    private boolean sendEmail(String recipientEmail) {
-        try {
-            GMailSender sender = new GMailSender("sociallogin007@gmail.com", "loginsocial007");
-            sender.sendMail("Hello from JavaMail", "Body from JavaMail",
-                    "sociallogin007@gmail.com", recipientEmail);
-            return true;
-        } catch (Exception e) {
-            Log.e("SendMail", e.getMessage(), e);
-            return false;
+    private boolean sendEmail(String name, String recipientEmail, String newPassword) {
+
+        final boolean[] emailSentStatus = {false};
+
+        final MailUtils m = new MailUtils("sociallogin007@gmail.com", "loginsocial007");
+        String[] toArr = {recipientEmail};
+        m.setTo(toArr);
+        m.setFrom("sociallogin007@gmail.com");
+        m.setSubject("New Password for Zolostays");
+        m.setBody("Hello " + name + ", \n\nYour new password is " + newPassword + ".");
+
+        /*new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (m.send()) {
+                        msg.arg1=1;
+                        handler.sendMessage(msg);
+                    } else {
+                    }
+                } catch (Exception e) {
+                    Log.e("mk", "Could not send email", e);
+                }
+            }
+        }).start();*/
+
+        class CustomTask extends AsyncTask<Void, Void, Void> {
+
+            protected Void doInBackground(Void... param) {
+                try {
+                    if (m.send()) {
+                        emailSentStatus[0] = true;
+                    } else {
+                        emailSentStatus[0] = false;
+                    }
+                } catch (Exception e) {
+                    Log.e("mk", "Could not send email", e);
+                }
+                return null;
+            }
         }
+        return emailSentStatus[0];
     }
 
     public static String newPWDString() {

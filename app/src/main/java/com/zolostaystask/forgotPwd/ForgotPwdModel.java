@@ -14,7 +14,6 @@ public interface ForgotPwdModel {
 
         void onUserNotFound();
         void onEmailSent(boolean b);
-        void onNewPwdGenerated(String newPwd);
         void onInternetNotAvailable();
     }
 }
