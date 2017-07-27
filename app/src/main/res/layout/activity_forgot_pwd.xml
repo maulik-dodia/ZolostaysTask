@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rlRootLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_blue"
@@ -115,7 +115,18 @@
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:layout_marginRight="@dimen/_20sdp"
                 android:background="@color/color_yellow"
+                android:enabled="false"
                 android:text="@string/str_reset_pwd" />
+
+            <TextView
+                android:id="@+id/tvNewPwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="maulik"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/_18ssp"
+                android:visibility="invisible" />
         </LinearLayout>
     </LinearLayout>
 

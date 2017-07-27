@@ -69,7 +69,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean checkForExistingUser(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_USER, new String[]{KEY_USER_EMAIL}, KEY_USER_EMAIL + "=?",
-                new String[]{String.valueOf(email)}, null, null, null, null);
+                new String[]{email}, null, null, null, null);
         if (cursor != null && cursor.getCount() > 0) {
             return true;
         }
@@ -80,12 +80,22 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean loginUser(String phone, String pwd) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_USER,
-                new String[]{KEY_USER_PHONE, KEY_USER_PASSWORD}, KEY_USER_PHONE + "=? AND "+ KEY_USER_PASSWORD + "=?",
+                new String[]{KEY_USER_PHONE, KEY_USER_PASSWORD}, KEY_USER_PHONE + "=? AND " + KEY_USER_PASSWORD + "=?",
                 new String[]{phone, pwd}, null, null, null, null);
         if (cursor != null && cursor.getCount() > 0) {
             return true;
         }
         db.close();
         return false;
+    }
+
+    public int updateUserPwd(String email, String newPwd) {
+        int updatedId;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_USER_PASSWORD, newPwd);
+        updatedId = db.update(TABLE_USER, values, KEY_USER_EMAIL + " = ?", new String[]{email});
+        db.close();
+        return updatedId;
     }
 }

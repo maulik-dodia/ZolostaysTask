@@ -33,7 +33,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:orientation="vertical"
         android:weightSum="1">
 
@@ -99,7 +101,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/str_phone_num_regi"
-                        android:inputType="phone"
+                        android:inputType="number"
                         android:maxLength="10"
                         app:font="Roboto-Regular.ttf" />
                 </android.support.design.widget.TextInputLayout>
@@ -167,6 +169,7 @@
                         android:id="@+id/editTextName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:hint="@string/str_name"
                         app:font="Roboto-Regular.ttf" />
                 </android.support.design.widget.TextInputLayout>
@@ -216,6 +219,7 @@
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:layout_marginRight="@dimen/_20sdp"
                 android:background="@color/color_yellow"
+                android:enabled="false"
                 android:text="@string/str_register" />
         </LinearLayout>
     </LinearLayout>

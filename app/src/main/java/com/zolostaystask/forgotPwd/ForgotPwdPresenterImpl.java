@@ -42,7 +42,14 @@ public class ForgotPwdPresenterImpl implements ForgotPwdPresenter, ForgotPwdMode
     }
 
     @Override
-    public void onInternetNoAvailable() {
+    public void onNewPwdGenerated(String newPwd) {
+        if (forgotPwdView != null) {
+            forgotPwdView.showMessage("Your new password is " + newPwd + ".");
+        }
+    }
+
+    @Override
+    public void onInternetNotAvailable() {
         forgotPwdView.showMessage("Check your internet connection!");
     }
 }

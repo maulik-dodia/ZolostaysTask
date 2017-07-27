@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/str_phone_num"
-                    android:inputType="phone|number"
+                    android:inputType="number"
                     android:maxLength="10"
                     app:font="Roboto-Regular.ttf" />
             </android.support.design.widget.TextInputLayout>
@@ -102,7 +102,7 @@
             android:layout_marginLeft="@dimen/_20sdp"
             android:layout_marginRight="@dimen/_20sdp"
             android:background="@color/color_yellow"
-            android:enabled="true"
+            android:enabled="false"
             android:text="@string/str_login" />
 
         <TextView

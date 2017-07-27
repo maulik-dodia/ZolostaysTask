@@ -1,8 +1,5 @@
 package com.zolostaystask.utils;
 
-import android.util.Log;
-
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ValidationUtils {
@@ -19,28 +16,34 @@ public class ValidationUtils {
 
     public static String validatePwd(String pwd) {
         validateMsg = null;
-        Pattern pattern = Pattern.compile("\\d+");
-
-        Pattern p = Pattern.compile("\\d+");
-        Matcher m = p.matcher(pwd);
-
-        while (m.find()) {
-            Log.e("mk", "password-->" + m.group());
+        if (pwd.length() < 5) {
+            validateMsg = "Password must have atleast 5 characters!";
         }
-
-        /*if (pwd.length() < 5) {
-            validateMsg = "Password is too short. Minimum 5 characters required!";
-        }*/
-        if (pattern.matcher(pwd).matches()) {
-            validateMsg = "Atleast one digit required!";
-        }
-        /*if (pwd.matches("((?=.*\\\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{5,10})")) {
-            validateMsg = "Password requires one digit, one lowercase letter, one uppercase letter, one special character, minimum length 5 and maximum length 10!";
-        }*/
         return validateMsg;
     }
 
-    public static boolean validateEmail(String email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    public static String validateEmail(String email) {
+        validateMsg = null;
+        Pattern emailPattern = Pattern.compile(
+                "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                        "\\@" +
+                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                        "(" +
+                        "\\." +
+                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                        ")+");
+
+        if (!emailPattern.matcher(email).matches()) {
+            validateMsg = "Email is invalid!";
+        }
+        return validateMsg;
+    }
+
+    public static String validateName(String name) {
+        validateMsg = null;
+        if (name.length() == 0) {
+            validateMsg = "Please enter your name!";
+        }
+        return validateMsg;
     }
 }

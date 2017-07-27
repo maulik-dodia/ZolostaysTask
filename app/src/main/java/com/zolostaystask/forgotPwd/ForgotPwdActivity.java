@@ -2,8 +2,13 @@ package com.zolostaystask.forgotPwd;
 
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -11,12 +16,16 @@ import android.widget.TextView;
 import com.zolostaystask.R;
 import com.zolostaystask.customWidgets.CustomEditText;
 import com.zolostaystask.utils.FontUtils;
+import com.zolostaystask.utils.ValidationUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdView {
+
+    @BindView(R.id.inputLayoutEmail)
+    TextInputLayout inputLayoutEmail;
 
     @BindView(R.id.rlRootLayout)
     RelativeLayout rlRootLayout;
@@ -39,6 +48,10 @@ public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdVie
     @BindView(R.id.btnResetPwd)
     Button btnResetPwd;
 
+    @BindView(R.id.tvNewPwd)
+    TextView tvNewPwd;
+
+    private boolean validEmail;
     private ForgotPwdPresenter forgotPwdPresenter;
 
     @Override
@@ -51,7 +64,6 @@ public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdVie
     }
 
     private void init() {
-
         //Initializing Presenter
         forgotPwdPresenter = new ForgotPwdPresenterImpl(this);
 
@@ -60,6 +72,9 @@ public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdVie
         tvForgotPwd.setTypeface(FontUtils.getInstance(ForgotPwdActivity.this).getRobotoRegularTypeFace());
         tvForgotPwdText.setTypeface(FontUtils.getInstance(ForgotPwdActivity.this).getRobotoRegularTypeFace());
         btnResetPwd.setTypeface(FontUtils.getInstance(ForgotPwdActivity.this).getRobotoRegularTypeFace());
+
+        //Setting TextWatcher
+        editTextEmail.addTextChangedListener(new MyTextWatcher(editTextEmail));
     }
 
     @OnClick(R.id.btnResetPwd)
@@ -68,13 +83,57 @@ public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdVie
     }
 
     @OnClick(R.id.tvToolbarText)
-    public void navifateToLogin(){
+    public void navifateToLogin() {
         onBackPressed();
     }
 
     @Override
     public void showMessage(String msg) {
+        tvNewPwd.setText(msg);
+        tvNewPwd.setVisibility(View.VISIBLE);
         Snackbar snackbar = Snackbar.make(rlRootLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
+    }
+
+    //TextWatcher Class
+    public class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        public void afterTextChanged(Editable editable) {
+
+            switch (view.getId()) {
+                case R.id.editTextEmail:
+                    String validationPhoneResult = ValidationUtils.validateEmail(editTextEmail.getText().toString());
+                    if (!TextUtils.isEmpty(validationPhoneResult) && validationPhoneResult != null) {
+                        validEmail = false;
+                        inputLayoutEmail.setError(validationPhoneResult);
+                    } else {
+                        validEmail = true;
+                        inputLayoutEmail.setError(null);
+                        inputLayoutEmail.setErrorEnabled(false);
+                    }
+                    break;
+            }
+            if (validEmail) {
+                btnResetPwd.setEnabled(true);
+            } else {
+                btnResetPwd.setEnabled(false);
+            }
+        }
     }
 }

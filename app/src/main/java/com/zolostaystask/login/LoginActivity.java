@@ -56,8 +56,10 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @BindView(R.id.btnCreateAcc)
     Button btnCreateAcc;
 
-    private boolean flag = true;
+    private boolean validPwd;
+    private boolean validPhone;
     private LoginPresenter loginPresenter;
+    private boolean flagForEditTextDrawable = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +85,8 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         btnCreateAcc.setTypeface(FontUtils.getInstance(LoginActivity.this).getRobotoRegularTypeFace());
 
         //Setting TextWatcher
-        //editTextPhoneNum.addTextChangedListener(new MyTextWatcher(editTextPhoneNum));
-        //editTextPwd.addTextChangedListener(new MyTextWatcher(editTextPwd));
+        editTextPhoneNum.addTextChangedListener(new MyTextWatcher(editTextPhoneNum));
+        editTextPwd.addTextChangedListener(new MyTextWatcher(editTextPwd));
     }
 
     @Override
@@ -108,14 +110,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
         if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
             if (motionEvent.getRawX() >= (editTextPwd.getRight() - editTextPwd.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                if (flag) {
+                if (flagForEditTextDrawable) {
                     editTextPwd.setInputType(InputType.TYPE_CLASS_TEXT);
                     editTextPwd.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_show_pwd, 0);
                 } else {
                     editTextPwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     editTextPwd.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_hide_pwd, 0);
                 }
-                flag = !flag;
+                flagForEditTextDrawable = !flagForEditTextDrawable;
                 return true;
             }
         }
@@ -158,12 +160,15 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         }
 
         public void afterTextChanged(Editable editable) {
+
             switch (view.getId()) {
                 case R.id.editTextPhoneNum:
                     String validationPhoneResult = ValidationUtils.validatePhone(editTextPhoneNum.getText().toString());
                     if (!TextUtils.isEmpty(validationPhoneResult) && validationPhoneResult != null) {
+                        validPhone = false;
                         inputLayoutPhoneNum.setError(validationPhoneResult);
                     } else {
+                        validPhone = true;
                         inputLayoutPhoneNum.setError(null);
                         inputLayoutPhoneNum.setErrorEnabled(false);
                     }
@@ -172,12 +177,19 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
                 case R.id.editTextPwd:
                     String validationPwdResult = ValidationUtils.validatePwd(editTextPwd.getText().toString());
                     if (!TextUtils.isEmpty(validationPwdResult) && validationPwdResult != null) {
+                        validPwd = false;
                         inputLayoutPwd.setError(validationPwdResult);
                     } else {
+                        validPwd = true;
                         inputLayoutPwd.setError(null);
                         inputLayoutPwd.setErrorEnabled(false);
                     }
                     break;
+            }
+            if (validPhone && validPwd) {
+                btnLogin.setEnabled(true);
+            } else {
+                btnLogin.setEnabled(false);
             }
         }
     }
