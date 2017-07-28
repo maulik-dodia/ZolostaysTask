@@ -31,6 +31,7 @@ public class ForgotPwdModelImpl implements ForgotPwdModel {
                 String username = dbHelper.getUsername(email);
                 String newPwd = newPWDString();
                 if (sendEmail(username, email, newPwd) == 1) {
+                    String me;
                     if (dbHelper.updateUserPwd(email, newPwd) > 0) {
                         listener.onEmailSent(true);
                     }
