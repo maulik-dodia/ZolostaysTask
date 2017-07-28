@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.zolostaystask.models.User;
 
@@ -62,7 +61,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 SQLiteDatabase db = this.getWritableDatabase();
                 registeredId = db.insert(TABLE_USER, null, contentValues);
                 db.close();
-                Log.e("mk", "Updated id-->" + user.getPwd());
             }
         }
         return registeredId;
@@ -97,7 +95,6 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_USER_PASSWORD, newPwd);
         updatedId = db.update(TABLE_USER, values, KEY_USER_EMAIL + " = ?", new String[]{email});
-        Log.e("mk", "Updated id-->" + updatedId);
         db.close();
         return updatedId;
     }

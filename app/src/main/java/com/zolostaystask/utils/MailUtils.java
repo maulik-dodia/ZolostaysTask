@@ -19,6 +19,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 public class MailUtils extends javax.mail.Authenticator {
+
 	private String _user;
 	private String _pass;
 

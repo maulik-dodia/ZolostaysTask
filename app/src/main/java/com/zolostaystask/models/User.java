@@ -1,9 +1,5 @@
 package com.zolostaystask.models;
 
-/**
- * Created by techniche-android on 26/7/17.
- */
-
 public class User {
 
     private String name;

@@ -2,10 +2,6 @@ package com.zolostaystask.forgotPwd;
 
 import android.content.Context;
 
-/**
- * Created by techniche-android on 26/7/17.
- */
-
 public class ForgotPwdPresenterImpl implements ForgotPwdPresenter, ForgotPwdModel.OnSendingEmailCompleteListener {
 
     private ForgotPwdView forgotPwdView;
@@ -40,7 +36,7 @@ public class ForgotPwdPresenterImpl implements ForgotPwdPresenter, ForgotPwdMode
             }
         }
     }
-    
+
     @Override
     public void onInternetNotAvailable() {
         forgotPwdView.showMessage("Check your internet connection!");

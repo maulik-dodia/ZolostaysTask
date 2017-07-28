@@ -4,10 +4,6 @@ import android.content.Context;
 
 import com.zolostaystask.models.User;
 
-/**
- * Created by techniche-android on 26/7/17.
- */
-
 public class LoginPresenterImpl implements LoginPresenter, LoginModel.OnLoginCompleteListener {
 
     private LoginView loginView;

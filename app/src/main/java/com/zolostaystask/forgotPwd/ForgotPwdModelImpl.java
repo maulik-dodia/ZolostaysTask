@@ -12,32 +12,27 @@ import com.zolostaystask.utils.MailUtils;
 import java.security.SecureRandom;
 import java.util.Random;
 
-/**
- * Created by techniche-android on 26/7/17.
- */
-
 public class ForgotPwdModelImpl implements ForgotPwdModel {
 
-    //private Context mContext;
+    private Context mContext;
+    private DBHelper dbHelper;
+    private OnSendingEmailCompleteListener mListner;
 
     @Override
-    public void doSendEmail(Context mContext, final String email, final OnSendingEmailCompleteListener listener) {
+    public void doSendEmail(Context context, final String email, final OnSendingEmailCompleteListener listener) {
 
-        //this.mContext = context;
+        this.mContext = context;
+        this.mListner = listener;
+        dbHelper = new DBHelper(context);
 
-        if (isConnectedToInternet(mContext)) {
-            final DBHelper dbHelper = new DBHelper(mContext);
+        if (isConnectedToInternet(context)) {
+
             if (dbHelper.checkForExistingUser(email)) {
-                String username = dbHelper.getUsername(email);
-                String newPwd = newPWDString();
-                if (sendEmail(username, email, newPwd) == 1) {
-                    String me;
-                    if (dbHelper.updateUserPwd(email, newPwd) > 0) {
-                        listener.onEmailSent(true);
-                    }
-                } else {
-                    listener.onEmailSent(false);
-                }
+
+                String[] strings = {dbHelper.getUsername(email), email, newPWDString()};
+
+                new SendingEmail().execute(strings);
+
             } else {
                 listener.onUserNotFound();
             }
@@ -61,50 +56,6 @@ public class ForgotPwdModelImpl implements ForgotPwdModel {
         return true;
     }
 
-    private boolean sendEmail(String name, String recipientEmail, String newPassword) {
-
-        final boolean[] emailSentStatus = {false};
-
-        final MailUtils m = new MailUtils("sociallogin007@gmail.com", "loginsocial007");
-        String[] toArr = {recipientEmail};
-        m.setTo(toArr);
-        m.setFrom("sociallogin007@gmail.com");
-        m.setSubject("New Password for Zolostays");
-        m.setBody("Hello " + name + ", \n\nYour new password is " + newPassword + ".");
-
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (m.send()) {
-                        msg.arg1=1;
-                        handler.sendMessage(msg);
-                    } else {
-                    }
-                } catch (Exception e) {
-                    Log.e("mk", "Could not send email", e);
-                }
-            }
-        }).start();*/
-
-        class CustomTask extends AsyncTask<Void, Void, Void> {
-
-            protected Void doInBackground(Void... param) {
-                try {
-                    if (m.send()) {
-                        emailSentStatus[0] = true;
-                    } else {
-                        emailSentStatus[0] = false;
-                    }
-                } catch (Exception e) {
-                    Log.e("mk", "Could not send email", e);
-                }
-                return null;
-            }
-        }
-        return emailSentStatus[0];
-    }
-
     public static String newPWDString() {
         char[] characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
         Random random = new SecureRandom();
@@ -114,5 +65,48 @@ public class ForgotPwdModelImpl implements ForgotPwdModel {
             result[i] = characterSet[randomCharIndex];
         }
         return new String(result);
+    }
+
+    private class SendingEmail extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+            boolean emailSentStatus = false;
+
+            String name = params[0];
+            String recipientEmail = params[1];
+            String newPassword = params[2];
+
+            final MailUtils m = new MailUtils("sociallogin007@gmail.com", "loginsocial007");
+            String[] toArr = {recipientEmail};
+            m.setTo(toArr);
+            m.setFrom("sociallogin007@gmail.com");
+            m.setSubject("New Password for Zolostays");
+            m.setBody("Hello " + name + ", \n\nYour new password is " + newPassword + ".");
+
+            try {
+                if (m.send()) {
+                    dbHelper = new DBHelper(mContext);
+                    if (dbHelper.updateUserPwd(recipientEmail, newPassword) > 0) {
+                        emailSentStatus = true;
+                    }
+                } else {
+                    emailSentStatus = false;
+                }
+            } catch (Exception e) {
+                Log.e("mk", "Could not send email", e);
+            }
+            return emailSentStatus;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                mListner.onEmailSent(true);
+            } else {
+                mListner.onEmailSent(false);
+            }
+        }
     }
 }
