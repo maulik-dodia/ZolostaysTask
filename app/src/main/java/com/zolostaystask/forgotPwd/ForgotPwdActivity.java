@@ -1,5 +1,6 @@
 package com.zolostaystask.forgotPwd;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -49,6 +50,7 @@ public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdVie
     Button btnResetPwd;
 
     private boolean validEmail;
+    private ProgressDialog progress;
     private ForgotPwdPresenter forgotPwdPresenter;
 
     @Override
@@ -64,6 +66,10 @@ public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdVie
         //Initializing Presenter
         forgotPwdPresenter = new ForgotPwdPresenterImpl(this);
 
+        //Initializing ProgressDialog
+        progress = new ProgressDialog(this);
+        progress.setMessage("Sending email..");
+
         //Setting Fonts
         tvToolbarText.setTypeface(FontUtils.getInstance(ForgotPwdActivity.this).getRobotoRegularTypeFace());
         tvForgotPwd.setTypeface(FontUtils.getInstance(ForgotPwdActivity.this).getRobotoRegularTypeFace());
@@ -76,6 +82,7 @@ public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdVie
 
     @OnClick(R.id.btnResetPwd)
     public void sendEmailToResetPwd() {
+        progress.show();
         forgotPwdPresenter.sendEmail(ForgotPwdActivity.this, editTextEmail.getText().toString());
     }
 
@@ -86,6 +93,7 @@ public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdVie
 
     @Override
     public void showMessage(String msg) {
+        progress.dismiss();
         Snackbar snackbar = Snackbar.make(rlRootLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
     }
