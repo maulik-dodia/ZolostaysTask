@@ -1,6 +1,7 @@
 package com.zolostaystask.forgotPwd;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.zolostaystask.R;
 import com.zolostaystask.customWidgets.CustomEditText;
+import com.zolostaystask.login.LoginActivity;
 import com.zolostaystask.utils.FontUtils;
 import com.zolostaystask.utils.ValidationUtils;
 
@@ -94,8 +96,15 @@ public class ForgotPwdActivity extends AppCompatActivity implements ForgotPwdVie
     @Override
     public void showMessage(String msg) {
         progress.dismiss();
+
         Snackbar snackbar = Snackbar.make(rlRootLayout, msg, Snackbar.LENGTH_LONG);
         snackbar.show();
+    }
+
+    @Override
+    public void navigateToLogin() {
+        finish();
+        startActivity(new Intent(ForgotPwdActivity.this, LoginActivity.class));
     }
 
     //TextWatcher Class

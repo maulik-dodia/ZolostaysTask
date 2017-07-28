@@ -30,7 +30,8 @@ public class ForgotPwdPresenterImpl implements ForgotPwdPresenter, ForgotPwdMode
     public void onEmailSent(boolean b) {
         if (forgotPwdView != null) {
             if (b) {
-                forgotPwdView.showMessage("New password is sent to your email!");
+                forgotPwdView.navigateToLogin();
+                //forgotPwdView.showMessage("New password is sent to your email!");
             } else {
                 forgotPwdView.showMessage("Some error occurred while sending email. Please try after some time.");
             }
